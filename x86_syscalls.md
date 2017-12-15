@@ -1,4 +1,5 @@
 #|Name|eax|ebx|ecx|edx|esi|edi|ebp|Definition
+|---|---|---|---|---|---|---|---|
 0|restart_syscall|0x00|-|-|-|-|-|-|kernel/signal.c:2501
 1|exit|0x01|int error_code|-|-|-|-|-|kernel/exit.c:1095
 2|fork|0x02|-|-|-|-|-|-|arch/x86/kernel/process.c:271
