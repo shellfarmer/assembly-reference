@@ -74,7 +74,7 @@ ld -o HelloWorld HelloWorld.o
 
 ### Program Structure 
 
-```
+```asm
 ; example program
 
 ; defines program start
@@ -98,8 +98,10 @@ section .bss
 
 Loop uses ecx and automatically decrements it and breaks when it hits zero
 
-```mov ecx, 0x5
+```asm
+mov ecx, 0x5
 label1:
+	;loop body
 	loop label1
 ```
 
@@ -107,7 +109,8 @@ label1:
 
 Procedures defined by labels in NASM and finished with ret
 
-```call TestProcedure
+```asm
+call TestProcedure
 
 TestProcedure:
   ; Procedure body
@@ -132,12 +135,11 @@ save framepointers and restore
 enter <size>, 1
 leave + ret
 
-# Linux Interrupts and systems calls
+### Linux Interrupts and systems calls
 
 Use interupt 0x80 to execute systemcalls
 
 System calls can be seen in [unistd_32.h](/unistd_32.h)
-
 
 Registers for system calls:
 
@@ -152,13 +154,29 @@ EDI:	5th Argument
 
 exit gracefully:
 
+```asm
 mov al, 0x1	; set syscall 1 
 xor ebx, ebx	; return 0
 int 0x80	; call interrupt
+```
 
 writing to screen:
 
-execve
+```asm
+section .text
+_start:
+        mov eax, 0x4	; write syscall
+        mov ebx, 0x1	; stdout
+        mov ecx, msg	; address of message
+        mov edx, mlen	; length of message
+        int 0x80	; call interrupt
+
+section .data
+        msg: db "Hello World!", 0xA  ; with newline
+        mlen equ $-message
+
+```
+execve:
 
   
   
@@ -180,7 +198,7 @@ Predefined memory in assembly cannot be accessed in shellcode due to varying mem
 
 jmp-call-pop technique:
 
-```
+```asm
 jmp short jmp_stage:
 
 call_stage:
@@ -192,7 +210,7 @@ jmp_stage:
 ```  
 Storing data on stack: 
 
-```
+```asm
 xor eax,eax       ; zero eax
 push eax          ; push 00 nulls to terminate string
 ; push string onto stack in reverse //bin/sh (Pad with extra slash to make sure its dword wide)
