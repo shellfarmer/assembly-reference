@@ -92,7 +92,7 @@ section .data
 section .bss
 ```
 <a name="programming-structures"></a>
-### Programming Structures 
+### Replicating C Structures 
 
 #### Loops
 
@@ -178,8 +178,48 @@ section .data
 ```
 execve:
 
+execve syscall:
+Takes
+	pointer to filename  EBX /bin/bash, 0x0
+	pointer to address of filename followed, pointer to address args followed by pointer to null ECX, this is ARGV
+	pointer to null EDX
+push 0x68732f6e
+push 0x69622f2f
+
+
+### Using libc in nasm
+
+standard c library saves time over writing pure ASM with syscalls
+- All library calls need to be defined with extern
+- All arguemnts need to be put on stack in reverse order
+	call function(a,b,c,d)
+		push d, push c, push b, push a
+- Adjust the stack after calling the libc functions
+- Link with GCC rather than LD - use main instead of _start
+
+  ```asm
   
-  
+  extern printf
+extern exit
+
+global main
+
+section .text
+
+main:
+	push message
+	push format
+	call printf
+	add esp, 0x8
+
+	push 0x0
+	call exit
+
+section .data
+	format: db "Test %s", 0xA,  0x00
+	message: db "Hello"
+	mlen equ $-message
+  ```
 ### Removing nulls (00) from shellcode  
   
 Assigning zero: 
