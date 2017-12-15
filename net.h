@@ -1,28 +1,3 @@
-/*
- * NET		An implementation of the SOCKET network access protocol.
- *		This is the master header file for the Linux NET layer,
- *		or, in plain English: the networking handling part of the
- *		kernel.
- *
- * Version:	@(#)net.h	1.0.3	05/25/93
- *
- * Authors:	Orest Zborowski, <obz@Kodak.COM>
- *		Ross Biro
- *		Fred N. van Kempen, <waltje@uWalt.NL.Mugnet.ORG>
- *
- *		This program is free software; you can redistribute it and/or
- *		modify it under the terms of the GNU General Public License
- *		as published by the Free Software Foundation; either version
- *		2 of the License, or (at your option) any later version.
- */
-#ifndef _LINUX_NET_H
-#define _LINUX_NET_H
-
-#include <linux/socket.h>
-#include <asm/socket.h>
-
-#define NPROTO		AF_MAX
-
 #define SYS_SOCKET	1		/* sys_socket(2)		*/
 #define SYS_BIND	2		/* sys_bind(2)			*/
 #define SYS_CONNECT	3		/* sys_connect(2)		*/
@@ -43,15 +18,3 @@
 #define SYS_ACCEPT4	18		/* sys_accept4(2)		*/
 #define SYS_RECVMMSG	19		/* sys_recvmmsg(2)		*/
 #define SYS_SENDMMSG	20		/* sys_sendmmsg(2)		*/
-
-typedef enum {
-	SS_FREE = 0,			/* not allocated		*/
-	SS_UNCONNECTED,			/* unconnected to any socket	*/
-	SS_CONNECTING,			/* in process of connecting	*/
-	SS_CONNECTED,			/* connected to socket		*/
-	SS_DISCONNECTING		/* in process of disconnecting	*/
-} socket_state;
-
-#define __SO_ACCEPTCON	(1 << 16)	/* performed a listen		*/
-
-#endif /* _LINUX_NET_H */
