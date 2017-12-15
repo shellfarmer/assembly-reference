@@ -132,13 +132,29 @@ save framepointers and restore
 enter <size>, 1
 leave + ret
 
+# Linux Interrupts and systems calls
+
+Use interupt 0x80 to execute systemcalls
+
+System calls can be seen in [unistd_32.h](/unistd_32.h)
+
+
+Registers for system calls:
+
+EAX:	System Call Number	return value after call
+EBX:	1st Arugment
+ECX:	2nd Arugment
+EDX:	3rd Argument
+ESI:	4th Argument
+EDI:	5th Argument
+
 ### Common code
 
 exit gracefully:
 
-mov al, 0x1   -  
-xor ebx, ebx
-int 0x80
+mov al, 0x1	; set syscall 1 
+xor ebx, ebx	; return 0
+int 0x80	; call interrupt
 
 
 
