@@ -156,7 +156,9 @@ mov al, 0x1	; set syscall 1
 xor ebx, ebx	; return 0
 int 0x80	; call interrupt
 
+writing to screen:
 
+execve
 
   
   
@@ -164,13 +166,13 @@ int 0x80	; call interrupt
   
 Assigning zero: 
 
-xor eax, eax
+xor eax, eax	; zeros xor
 cdq
 
 Assigning number to variable:
 
-mov eax, 0x1  ;  will pad with zeros
-mov al, 0x1
+mov eax, 0x1	; will pad with zeros
+mov al, 0x1	; will be null free
 
 ### Dynamic Addresses issue in shellcode
   
